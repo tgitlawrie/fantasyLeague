@@ -1,10 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import { Field, reduxForm } from "redux-form";
 import { Field, Form } from "react-final-form";
-import { values } from "redux-form";
 
 //TODO
 // refactor post requests with axios https://dev.to/salarc123/mern-stack-authentication-tutorial-part-2-the-frontend-gen
@@ -71,10 +67,9 @@ const Signup = (props) => {
               </div>
               <div className="mb-3">
                 <button className="btn btn-primary " type="submit">
-                  Submit
+                  Sign Up
                 </button>
               </div>
-              <div>Forgot password</div>
             </div>
           </form>
         )}
