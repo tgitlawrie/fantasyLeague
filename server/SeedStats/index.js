@@ -45,7 +45,7 @@ async function scrape(url) {
 
   let players = [];
 
-  for (i = 1; i <= 30; i++) {
+  for (let i = 1; i <= 30; i++) {
     const player = data[i].split("\t");
     let playerSchema = {};
     const [first, last] = player[1].split(" ");

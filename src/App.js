@@ -4,21 +4,19 @@ import Navbar from "./features/navbar/Navbar";
 import MyTeam from "./components/MyTeam";
 import Signup from "./features/forms/Signup";
 import Login from "./features/forms/Login";
-import PlayerStats from "./components/PlayerStats.js";
+import PlayerStats from "./features/playerstats/PlayerStats";
 
 const App = () => {
   return (
-    <div className="ui container">
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<MyTeam />} />
-          <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/playerstats" element={<PlayerStats />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<MyTeam />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/playerstats" element={<PlayerStats />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

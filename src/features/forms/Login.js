@@ -33,46 +33,48 @@ const Login = (props) => {
   };
 
   return (
-    <div
-      className="container-md d-flex justify-content-center align-items-center mt-5"
-      style={{ height: "100vh" }}
-    >
-      <Form
-        onSubmit={(values) => {
-          onSubmit(values);
-        }}
+    <div className="main-body login">
+      <div
+        className="container-md d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
       >
-        {({ handleSubmit }) => (
-          <form className="card " onSubmit={handleSubmit}>
-            <div className="card-body">
-              <div className="mb-3">
-                <h3>Login</h3>
-                <Field
-                  className="form-control"
-                  name="email"
-                  component="input"
-                  placeholder="Email"
-                />
+        <Form
+          onSubmit={(values) => {
+            onSubmit(values);
+          }}
+        >
+          {({ handleSubmit }) => (
+            <form className="card " onSubmit={handleSubmit}>
+              <div className="card-body">
+                <div className="mb-3">
+                  <h3>Login</h3>
+                  <Field
+                    className="form-control"
+                    name="email"
+                    component="input"
+                    placeholder="Email"
+                  />
+                </div>
+                <div className="mb-3">
+                  <Field
+                    className="form-control"
+                    name="password"
+                    component="input"
+                    type="password"
+                    placeholder="Password"
+                  />
+                </div>
+                <div className="mb-3">
+                  <button className="btn btn-outline-light " type="submit">
+                    Login
+                  </button>
+                </div>
+                <div>Forgot password</div>
               </div>
-              <div className="mb-3">
-                <Field
-                  className="form-control"
-                  name="password"
-                  component="input"
-                  type="password"
-                  placeholder="Password"
-                />
-              </div>
-              <div className="mb-3">
-                <button className="btn btn-primary " type="submit">
-                  Login
-                </button>
-              </div>
-              <div>Forgot password</div>
-            </div>
-          </form>
-        )}
-      </Form>
+            </form>
+          )}
+        </Form>
+      </div>
     </div>
   );
 };

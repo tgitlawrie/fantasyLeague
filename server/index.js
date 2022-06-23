@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const User = require("./models/users");
+const PlayerStat = require("./models/players");
 
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 3001;
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // link to user routes
 app.use("/users", require("./routes/users"));
+app.use("/players", require("./routes/players"));
 
 // connect to db and start server on successful db connection
 mongoose
