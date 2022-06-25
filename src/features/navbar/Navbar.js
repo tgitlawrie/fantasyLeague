@@ -1,30 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { signOut } from "./navbarSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const teamname = useSelector((state) => state.navbar.teamname);
+  const score = useSelector((state) => state.navbar.score);
+  const isSignedIn = useSelector((state) => state.navbar.isSignedIn);
+
   async function logout() {
-    localStorage.removeItem("token");
+    dispatch(signOut());
     navigate("/login");
   }
 
   function renderAuth() {
-    if (localStorage.token) {
+    if (localStorage.token && isSignedIn) {
       return (
-        <ul className="navbar-nav ">
-          <li className="nav-item">
-            <div className="nav-link" onClick={logout}>
-              Logout
-            </div>
-          </li>
-        </ul>
+        <React.Fragment>
+          <div className="navbar-brand col-sm-3">{teamname}</div>
+          <div className="navbar-brand col-sm-4">{score}</div>
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <div className="nav-link" onClick={logout}>
+                Logout
+              </div>
+            </li>
+          </ul>
+        </React.Fragment>
       );
     } else {
       return (
-        <ul className="navbar-nav ">
+        <ul className="navbar-nav">
           <li className="nav-item">
             <Link to={"/login"} className="nav-link">
               Login
@@ -40,10 +49,10 @@ const Navbar = () => {
     }
   }
 
-  useEffect(() => {}, []);
+  useEffect(() => {}, [teamname, score, isSignedIn]);
 
   return (
-    <nav className="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+    <nav className="navbar navbar-expand-md bg-dark navbar-dark">
       <div className="container-fluid">
         <button
           className="navbar-toggler"

@@ -1,0 +1,7 @@
+.board {
+  background-image: url("../../assets/arena.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 90vh;
+}

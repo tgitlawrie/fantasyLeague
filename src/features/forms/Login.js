@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Field, Form } from "react-final-form";
 import "./login.css";
 import { loginSuccess } from "./loginSlice";
+import { signIn } from "../navbar/navbarSlice";
 
 const Login = (props) => {
   // const signedin = useSelector(selectSignedIn);
@@ -16,7 +17,7 @@ const Login = (props) => {
       email: formValues.email,
       password: formValues.password,
     };
-
+    //TODO fix login condition if failed
     fetch("/users/login", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -24,6 +25,7 @@ const Login = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        dispatch(signIn(data.payload));
         localStorage.setItem("token", data.token);
       })
       .then(() => {
@@ -33,7 +35,7 @@ const Login = (props) => {
   };
 
   return (
-    <div className="main-body login">
+    <div className="login" id="main-body">
       <div
         className="container-md d-flex justify-content-center align-items-center"
         style={{ height: "100vh" }}
@@ -44,7 +46,7 @@ const Login = (props) => {
           }}
         >
           {({ handleSubmit }) => (
-            <form className="card " onSubmit={handleSubmit}>
+            <form className="card" id="form-card" onSubmit={handleSubmit}>
               <div className="card-body">
                 <div className="mb-3">
                   <h3>Login</h3>

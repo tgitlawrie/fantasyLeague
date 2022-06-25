@@ -30,6 +30,7 @@ router.post("/login", (req, res) => {
             return res.json({
               message: "success",
               token: "Bearer " + token,
+              payload,
             });
           }
         );

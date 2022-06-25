@@ -27,7 +27,7 @@ const Signup = (props) => {
   };
 
   return (
-    <div className="main-body signup">
+    <div className="signup" id="main-body">
       <div
         className="container-md d-flex justify-content-center align-items-center"
         style={{ height: "100vh" }}
@@ -38,7 +38,7 @@ const Signup = (props) => {
           }}
         >
           {({ handleSubmit }) => (
-            <form className="card " onSubmit={handleSubmit}>
+            <form className="card" id="form-card" onSubmit={handleSubmit}>
               <div className="card-body">
                 <div className="mb-3">
                   <h3>Sign Up</h3>
