@@ -1,0 +1,2 @@
+check if there is a player in each position if not draft until team is full
+store team in redux store

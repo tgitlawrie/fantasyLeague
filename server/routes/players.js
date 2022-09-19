@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const PlayerStat = require("../models/players");
 const router = express.Router();
 

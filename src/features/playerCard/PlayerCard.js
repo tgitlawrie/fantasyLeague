@@ -5,7 +5,8 @@ import "./playerCard.css";
 
 export const PlayerCard = (position) => {
   const [expanded, setExpanded] = useState(false);
-
+  // hardcoded information for now
+  //TODO get player information for each card should be stored in state
   const player = {
     _id: "62a56f4d6db63c925cd9861f",
     number: 88,

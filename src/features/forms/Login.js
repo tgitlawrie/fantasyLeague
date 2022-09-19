@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Field, Form } from "react-final-form";
 import "./login.css";
 import { loginSuccess } from "./loginSlice";
@@ -71,6 +71,7 @@ const Login = (props) => {
                     Login
                   </button>
                 </div>
+                {/* TODO implement forgot password */}
                 <div>Forgot password</div>
               </div>
             </form>
