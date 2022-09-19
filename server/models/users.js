@@ -16,6 +16,12 @@ const userSchema = mongoose.Schema({
   score: {
     type: Number,
   },
+  Team: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PlayerStats",
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);

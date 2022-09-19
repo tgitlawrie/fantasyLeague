@@ -1,5 +1,9 @@
+// import GoalieStats from "../models/goalieschema";
+
 const puppeteer = require("puppeteer");
 const mongoose = require("mongoose");
+
+// const PlayerStats = require("../models/players");
 
 const URI =
   "mongodb+srv://tlawrie:C3DCG5hZHkTzKvuG@cluster0.xxxbt.mongodb.net/fantasyh?retryWrites=true&w=majority";
@@ -14,26 +18,30 @@ mongoose
     console.log(`ERROR: ${err}`);
   });
 
-async function scrape(url) {
-  const playerSchema = new mongoose.Schema({
-    number: Number,
-    firstName: String,
-    lastName: String,
-    team: String,
-    gamesPlayed: Number,
-    goals: Number,
-    assists: Number,
-    points: Number,
-    ppGoals: Number,
-    ppAssists: Number,
-    shGoals: Number,
-    shAssists: Number,
-    penaltyMins: Number,
-    avgPoints: Number,
-  });
+const playerSchema = new mongoose.Schema({
+  number: Number,
+  firstName: String,
+  lastName: String,
+  team: String,
+  position: String,
+  gamesPlayed: Number,
+  goals: Number,
+  assists: Number,
+  points: Number,
+  ppGoals: Number,
+  ppAssists: Number,
+  shGoals: Number,
+  shAssists: Number,
+  penaltyMins: Number,
+  avgPoints: Number,
+});
 
-  // creates collection, arg1 is name of collection, will pluralise, 2nd arg schema
-  const PlayerStats = mongoose.model("Playerstat", playerSchema);
+// creates collection, arg1 is name of collection, will pluralise, 2nd arg schema
+const PlayerStats = mongoose.model("Playerstat", playerSchema);
+// const reset = PlayerStats.deleteMany({});
+// reset();
+
+async function scrape(url) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url);
@@ -46,6 +54,15 @@ async function scrape(url) {
   let players = [];
 
   for (let i = 1; i <= 30; i++) {
+    // generate random position
+    const pNum = Math.floor(Math.random() * 5);
+    let pos = "";
+    if (pNum === 0) pos = "C";
+    if (pNum === 1) pos = "LW";
+    if (pNum === 2) pos = "RW";
+    if (pNum === 3) pos = "LD";
+    if (pNum === 4) pos = "RD";
+
     const player = data[i].split("\t");
     let playerSchema = {};
     const [first, last] = player[1].split(" ");
@@ -53,6 +70,7 @@ async function scrape(url) {
     playerSchema.firstName = first;
     playerSchema.lastName = last;
     playerSchema.team = player[2];
+    playerSchema.position = pos;
     playerSchema.gamesPlayed = parseInt(player[3]);
     playerSchema.goals = parseInt(player[4]);
     playerSchema.assists = parseInt(player[5]);
@@ -68,14 +86,17 @@ async function scrape(url) {
   }
   browser.close();
   // inserts array of objects into the db
-  PlayerStats.insertMany(players)
-    .then((data) => {
-      console.log("success");
-      mongoose.connection.close();
-    })
-    .catch((err) => {
-      console.log(`Error: ${err}`);
-    });
+  async function playerInsert() {
+    await PlayerStats.insertMany(players)
+      .then((data) => {
+        console.log("success");
+        mongoose.connection.close();
+      })
+      .catch((err) => {
+        console.log(`Error: ${err}`);
+      });
+  }
+  playerInsert();
 }
 
 scrape(
