@@ -6,8 +6,9 @@ import { Field, Form } from "react-final-form";
 import "./login.css";
 import { loginSuccess } from "./loginSlice";
 import { signIn } from "../navbar/navbarSlice";
+import { setTeam } from "../team/teamSlice";
 
-const Login = (props) => {
+const Login = () => {
   // const signedin = useSelector(selectSignedIn);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,9 +27,12 @@ const Login = (props) => {
       .then((res) => res.json())
       .then((data) => {
         dispatch(signIn(data.payload));
+        dispatch(setTeam(data.payload.team));
+        console.log(data.payload);
         localStorage.setItem("token", data.token);
       })
       .then(() => {
+        // get team?
         dispatch(loginSuccess());
         navigate("/");
       });

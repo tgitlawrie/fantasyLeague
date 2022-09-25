@@ -16,7 +16,13 @@ const userSchema = mongoose.Schema({
   score: {
     type: Number,
   },
-  Team: [
+  team: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PlayerStats",
+    },
+  ],
+  bench: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "PlayerStats",

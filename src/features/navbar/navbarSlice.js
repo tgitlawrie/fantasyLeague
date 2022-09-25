@@ -12,9 +12,8 @@ export const navbarSlice = createSlice({
   reducers: {
     signIn: (state, payload) => {
       state.isSignedIn = true;
-      console.log(payload);
-      state.teamname = payload.payload.teamname;
-      state.score = payload.payload.score;
+      state.teamname = payload.teamname;
+      state.score = payload.score;
     },
     signOut: (state) => {
       state.isSignedIn = false;

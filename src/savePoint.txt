@@ -1,0 +1,10 @@
+admin@admin.com
+admin
+
+in team/draft.js do some sort of interface for draft, get 3 random players, pick one, assign it to team array in user schema
+
+check if there is a player in each position if not draft until team is full
+store team in redux store
+
+
+

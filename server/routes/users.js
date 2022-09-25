@@ -3,6 +3,7 @@ const User = require("../models/users");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { db } = require("../models/users");
 
 // call to initiate logout localStorage.removeItem("token"))
 
@@ -20,6 +21,8 @@ router.post("/login", (req, res) => {
           id: dbUser._id,
           teamname: dbUser.teamname,
           score: dbUser.score,
+          team: dbUser.team,
+          bench: dbUser.bench,
         };
         jwt.sign(
           payload,
@@ -78,7 +81,8 @@ router.get("/isUserAuth", verifyJWT, (req, res) => {
 // JWT verify middleware
 function verifyJWT(req, res, next) {
   //get token from req headers, split off "Bearer " string
-  const token = req.headers["x-access-token"]?.split(" ")[1];
+  // const token = req.headers["x-access-token"]?.split(" ")[1];
+  const token = req.headers["x-access-token"];
 
   //if token exists verify else set isLoggedIn to false;
   if (token) {
