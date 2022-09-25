@@ -1,15 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Field, Form } from "react-final-form";
 import "./login.css";
 import { loginSuccess } from "./loginSlice";
 import { signIn } from "../navbar/navbarSlice";
-import { setTeam } from "../team/teamSlice";
+import { setTeam, hasTeam } from "../team/teamSlice";
 
 const Login = () => {
   // const signedin = useSelector(selectSignedIn);
+  // const team = useSelector((state) => state.team);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,11 +29,11 @@ const Login = () => {
       .then((data) => {
         dispatch(signIn(data.payload));
         dispatch(setTeam(data.payload.team));
-        console.log(data.payload);
+        dispatch(hasTeam());
+        console.log(`login:` + data.payload.team);
         localStorage.setItem("token", data.token);
       })
       .then(() => {
-        // get team?
         dispatch(loginSuccess());
         navigate("/");
       });
