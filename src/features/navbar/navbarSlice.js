@@ -12,17 +12,12 @@ export const navbarSlice = createSlice({
   reducers: {
     signIn: (state, payload) => {
       state.isSignedIn = true;
-      state.teamname = payload.teamname;
-      state.score = payload.score;
+      state.teamname = payload.payload.teamname;
+      state.score = payload.payload.score;
     },
     signOut: (state) => {
       state.isSignedIn = false;
-      state.teamname = initialState.teamname;
-      state.score = initialState.score;
       localStorage.removeItem("token");
-    },
-    userTeam: (state, payload) => {
-      state.userTeam = payload;
     },
   },
 });

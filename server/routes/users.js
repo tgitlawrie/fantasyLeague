@@ -1,9 +1,9 @@
 const express = require("express");
 const User = require("../models/users");
+const Players = require("../models/players");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { db } = require("../models/users");
 
 // call to initiate logout localStorage.removeItem("token"))
 
@@ -15,34 +15,40 @@ router.post("/login", (req, res) => {
     if (!dbUser) {
       return res.json({ message: "Invalid Email or Password" });
     }
-    bcrypt.compare(emailLogin.password, dbUser.password).then((isCorrect) => {
-      if (isCorrect) {
-        const payload = {
-          id: dbUser._id,
-          teamname: dbUser.teamname,
-          score: dbUser.score,
-          team: dbUser.team,
-          bench: dbUser.bench,
-        };
-        jwt.sign(
-          payload,
-          process.env.JWT_SECRET,
-          { expiresIn: 86400 },
-          (err, token) => {
-            if (err) return res.json({ message: err });
-            return res.json({
-              message: "success",
-              token: "Bearer " + token,
-              payload,
-            });
-          }
-        );
-      } else {
-        return res.json({
-          message: "Invalid Email or Password",
-        });
-      }
-    });
+    bcrypt
+      .compare(emailLogin.password, dbUser.password)
+      .then(async (isCorrect) => {
+        //get players associated with team, assign to team.
+        if (isCorrect) {
+          const getTeam = await Players.find({
+            _id: { $in: dbUser.team },
+          });
+          const payload = {
+            id: dbUser._id,
+            teamname: dbUser.teamname,
+            score: dbUser.score,
+            team: getTeam,
+            bench: dbUser.bench,
+          };
+          jwt.sign(
+            payload,
+            process.env.JWT_SECRET,
+            { expiresIn: 86400 },
+            (err, token) => {
+              if (err) return res.json({ message: err });
+              return res.json({
+                message: "success",
+                token: "Bearer " + token,
+                payload,
+              });
+            }
+          );
+        } else {
+          return res.json({
+            message: "Invalid Email or Password",
+          });
+        }
+      });
   });
 });
 // user registration
@@ -71,6 +77,10 @@ router.post("/register", async (req, res) => {
     dbUser.save();
     res.json({ message: "success" });
   }
+});
+
+router.post("/team", async (req, res) => {
+  console.log(`from server:${req.body}`);
 });
 
 // route for user verification

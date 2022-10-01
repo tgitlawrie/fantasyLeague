@@ -3,27 +3,8 @@ import "./playerCard.css";
 
 //TODO Fix hover on mobile
 
-export const PlayerCard = (position) => {
+export const PlayerCard = ({ ...player }) => {
   const [expanded, setExpanded] = useState(false);
-  // hardcoded information for now
-  //TODO get player information for each card should be stored in state
-  const player = {
-    _id: "62a56f4d6db63c925cd9861f",
-    number: 88,
-    firstName: "Jamin",
-    lastName: "Harrex",
-    team: "BULLS",
-    gamesPlayed: 10,
-    goals: 5,
-    assists: 4,
-    points: 9,
-    ppGoals: 0,
-    ppAssists: 0,
-    shGoals: 0,
-    shAssists: 0,
-    penaltyMins: 6,
-    avgPoints: 0,
-  };
 
   const handleMouseOver = () => {
     setExpanded(true);
@@ -59,7 +40,6 @@ export const PlayerCard = (position) => {
       );
     }
   };
-
   return (
     <div
       className="card text-center border-dark mb-0"
@@ -68,7 +48,7 @@ export const PlayerCard = (position) => {
       onMouseOut={handleMouseOut}
     >
       <div className="card-body text-dark p-0">
-        <h5 className="card-title">{position}</h5>
+        <h5 className="card-title">{player.position}</h5>
         <h6 className="card-title">{`${player.number} ${player.firstName} ${player.lastName}`}</h6>
         <HoverRender />
       </div>
