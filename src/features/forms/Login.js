@@ -5,7 +5,7 @@ import { Field, Form } from "react-final-form";
 import "./login.css";
 import { loginSuccess } from "./loginSlice";
 import { signIn } from "../navbar/navbarSlice";
-import { hasTeam, setTeam } from "../team/teamSlice";
+import { setTeam } from "../team/teamSlice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,15 +25,15 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         dispatch(signIn(data.payload));
-        if (data.payload.team.length === 6) {
-          dispatch(hasTeam());
-          dispatch(setTeam(data.payload.team));
-        }
-        localStorage.setItem("token", data.token);
-      })
-      .then(() => {
         dispatch(loginSuccess());
-        navigate("/");
+        localStorage.setItem("token", data.token);
+
+        if (data.payload.team.length === 6) {
+          dispatch(setTeam(data.payload.team));
+          navigate("/");
+        } else {
+          navigate("/draft");
+        }
       });
   };
 

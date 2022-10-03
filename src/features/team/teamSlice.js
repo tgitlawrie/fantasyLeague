@@ -24,6 +24,7 @@ const teamSlice = createSlice({
     },
     setTeam(state, { payload }) {
       //set team state based on postion
+
       payload.forEach((player) => {
         if (player.position === "C") state.team.C = player;
         if (player.position === "LW") state.team.LW = player;
@@ -32,10 +33,6 @@ const teamSlice = createSlice({
         if (player.position === "RD") state.team.RD = player;
         if (player.position === "G") state.team.G = player;
       });
-    },
-    hasTeam(state) {
-      state.isLoading = false;
-      state.hasTeam = true;
     },
   },
 });

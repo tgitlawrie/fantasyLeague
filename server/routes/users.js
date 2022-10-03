@@ -79,9 +79,12 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/team", async (req, res) => {
+router.post("/team", verifyJWT, async (req, res) => {
   console.log(`from server:${req.body}`);
 });
+
+router.get("/draft", verifyJWT, (req, res) => {});
+router.get("/", verifyJWT, (req, res) => {});
 
 // route for user verification
 router.get("/isUserAuth", verifyJWT, (req, res) => {
@@ -93,6 +96,7 @@ function verifyJWT(req, res, next) {
   //get token from req headers, split off "Bearer " string
   // const token = req.headers["x-access-token"]?.split(" ")[1];
   const token = req.headers["x-access-token"];
+  console.log(token);
 
   //if token exists verify else set isLoggedIn to false;
   if (token) {

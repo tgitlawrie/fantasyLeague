@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
   score: {
     type: Number,
   },
+  isTeamFull: {
+    type: Boolean,
+    default: false,
+  },
   team: [
     {
       type: mongoose.Schema.Types.ObjectId,
