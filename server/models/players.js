@@ -5,6 +5,7 @@ const playerSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   team: String,
+  position: String,
   gamesPlayed: Number,
   goals: Number,
   assists: Number,

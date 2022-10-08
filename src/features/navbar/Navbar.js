@@ -76,7 +76,6 @@ const Navbar = () => {
               <Link to={"/playerstats"} className="nav-link">
                 Player Stats
               </Link>
-              no
             </li>
           </ul>
           {renderAuth()}

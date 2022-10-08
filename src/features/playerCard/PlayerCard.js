@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import "./playerCard.css";
+import { expandOff, expandOn } from "./playerCardSlice";
 
 //TODO Fix hover on mobile
 
-export const PlayerCard = ({ ...player }) => {
-  const [expanded, setExpanded] = useState(false);
-
+export const PlayerCard = ({ player }) => {
+  const dispatch = useDispatch();
+  const expanded = useSelector((state) => state.playercard.expanded);
+  // const [expandLocked, setExpandLocked] = useState(false);
   const handleMouseOver = () => {
-    setExpanded(true);
+    dispatch(expandOn());
   };
 
   const handleMouseOut = () => {
-    setExpanded(false);
+    dispatch(expandOff());
   };
 
   const HoverRender = () => {
@@ -44,8 +47,8 @@ export const PlayerCard = ({ ...player }) => {
     <div
       className="card text-center border-dark mb-0"
       id="player-card"
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
+      onMouseOver={() => handleMouseOver()}
+      onMouseOut={() => handleMouseOut()}
     >
       <div className="card-body text-dark p-0">
         <h5 className="card-title">{player.position}</h5>

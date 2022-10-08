@@ -1,37 +1,30 @@
 import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { PlayerCard } from "../playerCard/PlayerCard";
 import "./myTeam.css";
 
 const MyTeam = () => {
-  const team = useSelector((state) => state.team.team, shallowEqual);
-
-  const cCard = PlayerCard(team.C);
-  const lwCard = PlayerCard(team.LW);
-  const rwCard = PlayerCard(team.RW);
-  const ldCard = PlayerCard(team.LD);
-  const rdCard = PlayerCard(team.RD);
-  const gCard = PlayerCard(team.G);
+  const team = useSelector((state) => state.team.team);
 
   return (
     <div className="board line">
       <div className="" id="left-w">
-        {lwCard}
+        {<PlayerCard player={team.LW} />}
       </div>
       <div className="" id="center">
-        {cCard}
+        {<PlayerCard player={team.C} />}
       </div>
       <div className="" id="right-w">
-        {rwCard}
+        {<PlayerCard player={team.RW} />}
       </div>
       <div className="" id="left-d">
-        {ldCard}
+        {<PlayerCard player={team.LD} />}
       </div>
       <div className="" id="right-d">
-        {rdCard}
+        {<PlayerCard player={team.RD} />}
       </div>
       <div className="" id="g">
-        {gCard}
+        {<PlayerCard player={team.G} />}
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         dispatch(signIn(data.payload));
-        dispatch(loginSuccess());
+        dispatch(loginSuccess(data.payload.id));
         localStorage.setItem("token", data.token);
 
         if (data.payload.team.length === 6) {
