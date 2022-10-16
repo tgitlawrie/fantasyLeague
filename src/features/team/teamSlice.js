@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   // get team from database and assign?
   isLoading: true,
-  hasTeam: false,
   team: {
+    name: "",
     C: {},
     LW: {},
     RW: {},
@@ -19,13 +19,11 @@ const teamSlice = createSlice({
   name: "team",
   initialState,
   reducers: {
-    addPlayer(state) {
-      state.team = null;
-    },
     setTeam(state, { payload }) {
+      console.log(payload);
+      state.team.name = payload.teamname;
       //set team state based on postion
-
-      payload.forEach((player) => {
+      payload.team.forEach((player) => {
         if (player.position === "C") state.team.C = player;
         if (player.position === "LW") state.team.LW = player;
         if (player.position === "RW") state.team.RW = player;
@@ -39,5 +37,5 @@ const teamSlice = createSlice({
 
 const { reducer, actions } = teamSlice;
 
-export const { addPlayer, setTeam, hasTeam } = actions;
+export const { setTeam } = actions;
 export default reducer;

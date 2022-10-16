@@ -1,6 +1,7 @@
 #player-card {
   width: 10em;
   font-size: 0.8rem;
+  min-height: 220px;
 }
 
 ul.no-bullets {

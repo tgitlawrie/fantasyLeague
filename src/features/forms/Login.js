@@ -29,7 +29,7 @@ const Login = () => {
         localStorage.setItem("token", data.token);
 
         if (data.payload.team.length === 6) {
-          dispatch(setTeam(data.payload.team));
+          dispatch(setTeam(data.payload));
           navigate("/");
         } else {
           navigate("/draft");

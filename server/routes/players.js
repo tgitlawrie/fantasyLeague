@@ -43,12 +43,17 @@ router.get("/team/draft", async (req, res) => {
 });
 
 // route to add new player to the team
-router.post("/team/add", async (req, res) => {
-  //need userID
-  const newPlayer = await User.findById(req.body.user);
-  newPlayer.team.push(req.body._id);
-  await newPlayer.save();
-  // console.log(req.body);
+router.post("/team/new", async (req, res) => {
+  //  //need userID
+  const { C, LW, RW, LD, RD, G, user, name } = req.body;
+  const playerArray = [C._id, LW._id, RW._id, LD._id, RD._id, G._id];
+
+  const finalTeam = await User.findById(user);
+  finalTeam.teamname = name;
+  finalTeam.team = playerArray;
+  await finalTeam.save();
+
+  res.send({ message: "success" });
 });
 
 module.exports = router;

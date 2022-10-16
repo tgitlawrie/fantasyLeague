@@ -7,7 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const teamname = useSelector((state) => state.navbar.teamname);
+  const teamname = useSelector((state) => state.team.team.name);
   const score = useSelector((state) => state.navbar.score);
   const isSignedIn = useSelector((state) => state.navbar.isSignedIn);
 

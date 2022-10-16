@@ -4,21 +4,22 @@ import axios from "axios";
 const initialState = {
   isLoading: true,
   draftStage: 1,
-  newPlayer: {},
+  isDraftComplete: false,
+  newTeam: {
+    name: "",
+    C: {},
+    LW: {},
+    RW: {},
+    LD: {},
+    RD: {},
+    G: {},
+  },
 };
 
 const draftSlice = createSlice({
   name: "draft",
   initialState,
   reducers: {
-    addPlayer(state, action) {
-      state.newPlayer = { ...action.payload };
-      axios({
-        method: "post",
-        url: "/players/team/add",
-        data: state.newPlayer,
-      });
-    },
     advanceDraft(state) {
       if (state.draftStage < 8) {
         state.draftStage++;
@@ -30,10 +31,41 @@ const draftSlice = createSlice({
         state.draftStage--;
       }
     },
+    setDraftStage(state, action) {
+      state.draftStage = action.payload;
+    },
+    isDraftComplete(state, action) {
+      state.isDraftComplete = action.payload;
+    },
+    setNewTeam(state, { payload }) {
+      if (!payload.position) state.newTeam.name = payload;
+      if (payload.position === "C") state.newTeam.C = payload;
+      if (payload.position === "LW") state.newTeam.LW = payload;
+      if (payload.position === "RW") state.newTeam.RW = payload;
+      if (payload.position === "LD") state.newTeam.LD = payload;
+      if (payload.position === "RD") state.newTeam.RD = payload;
+      if (payload.position === "G") state.newTeam.G = payload;
+    },
+    saveNewTeam(state, action) {
+      console.log(`savenewteam ${action.payload}`);
+      // send to server for save
+      axios({
+        method: "post",
+        url: "/players/team/new",
+        data: action.payload,
+      });
+    },
   },
 });
 
 const { reducer, actions } = draftSlice;
 
-export const { advanceDraft, retreatDraft, addPlayer } = actions;
+export const {
+  advanceDraft,
+  retreatDraft,
+  setNewTeam,
+  saveNewTeam,
+  setDraftStage,
+  isDraftComplete,
+} = actions;
 export default reducer;

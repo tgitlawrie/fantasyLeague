@@ -4,6 +4,7 @@ const Players = require("../models/players");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { cloudinary } = require("../cloudinary/index.js");
 
 // call to initiate logout localStorage.removeItem("token"))
 
@@ -68,7 +69,6 @@ router.post("/register", async (req, res) => {
 
     //TODO change score from 69 once calculations are done
     const dbUser = new User({
-      teamname: "hard coded teamname serverside",
       email: user.email.toLowerCase().trim(),
       password: user.password,
       score: 69,
@@ -91,6 +91,45 @@ router.get("/isUserAuth", verifyJWT, (req, res) => {
   res.json({ isLoggedIn: true, teamname: req.user.teamname });
 });
 
+router.get("/logos", async (req, res) => {
+  let logos = [];
+  const options = {
+    resource_type: "image",
+    max_results: 30,
+  };
+  const transformations = {
+    width: 200,
+    height: 200,
+  };
+  async function listResources(next_cursor) {
+    if (next_cursor) {
+      options["next_cursor"] = next_cursor;
+    }
+    await cloudinary.api.resources_by_tag("hockey", options, (error, res) => {
+      if (error) {
+        console.log(error);
+      }
+      const more = res.next_cursor;
+      const resources = res.resources;
+      for (let res in resources) {
+        res = resources[res];
+        const url = res.secure_url;
+        const id = res.asset_id;
+        logos.push({ id, url });
+      }
+      if (more) {
+        listResources(more);
+      } else {
+        console.log("done");
+        // console.log(JSON.stringify(logos));
+        return logos;
+      }
+    });
+  }
+  await listResources(null);
+  res.send(logos);
+  // console.log(res.json(logos));
+});
 // JWT verify middleware
 function verifyJWT(req, res, next) {
   //get token from req headers, split off "Bearer " string

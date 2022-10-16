@@ -20,8 +20,8 @@ export const PlayerCard = ({ player }) => {
   const HoverRender = () => {
     if (expanded) {
       return (
-        <div className="row d-flex justify-content-center">
-          <div className="card-text col-md-6">
+        <div className="row">
+          <div className="card-text col-md-6 d-flex justify-content-end">
             <ul className="no-bullets">
               <li>{`GP: ${player.gamesPlayed}`}</li>
               <li>{`A: ${player.assists}`}</li>
@@ -30,7 +30,7 @@ export const PlayerCard = ({ player }) => {
               <li>{`PIM: ${player.penaltyMins}`}</li>
             </ul>
           </div>
-          <div className="card-text col-md-6">
+          <div className="card-text col-md-6 d-flex justify-content-start">
             <ul className="no-bullets">
               <li>{`G: ${player.goals}`}</li>
               <li>{`P: ${player.points}`}</li>
@@ -51,8 +51,8 @@ export const PlayerCard = ({ player }) => {
       onMouseOut={() => handleMouseOut()}
     >
       <div className="card-body text-dark p-0">
-        <h5 className="card-title">{player.position}</h5>
-        <h6 className="card-title">{`${player.number} ${player.firstName} ${player.lastName}`}</h6>
+        <h5 className="card-title display-6">{player.position}</h5>
+        <h6 className="card-title display-9">{`${player.number} ${player.firstName} ${player.lastName}`}</h6>
         <HoverRender />
       </div>
     </div>
