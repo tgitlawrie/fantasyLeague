@@ -1,14 +1,18 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { PlayerCard } from "../playerCard/PlayerCard";
 import { setDraftStage, saveNewTeam } from "./draftSlice";
+import { useNavigate } from "react-router-dom";
 
 const AssignTeam = () => {
   const dispatch = useDispatch();
+  const Navigate = useNavigate();
   const name = useSelector((state) => state.draft.newTeam.name);
   const complete = useSelector((state) => state.draft.isDraftComplete);
   const userID = useSelector((state) => state.login.user);
   const team = useSelector((state) => state.draft.newTeam);
+  const logoID = useSelector((state) => state.draft.newTeam.logo);
 
   const C = useSelector((state) => state.draft.newTeam.C);
   const LW = useSelector((state) => state.draft.newTeam.LW);
@@ -38,6 +42,7 @@ const AssignTeam = () => {
     payload = Object.assign(tempTeam, { user: userID });
     console.log(payload);
     dispatch(saveNewTeam(payload));
+    Navigate("/");
   };
 
   const renderC = () => {
@@ -115,6 +120,8 @@ const AssignTeam = () => {
   return (
     <div className="container">
       <h2>{name}</h2>
+      <img src={logoID} />
+      <div className="row"></div>
       <div className="row">
         <div className="col">{renderC()}</div>
         <div className="col">{renderLW()}</div>

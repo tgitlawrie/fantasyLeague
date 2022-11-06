@@ -55,15 +55,12 @@ router.post("/login", (req, res) => {
 // user registration
 router.post("/register", async (req, res) => {
   const user = req.body;
-
   // check if teamname or email has been taken allready
-  const takenTeam = await User.findOne({ teamname: user.teamname });
   const takenEmail = await User.findOne({ email: user.email });
 
-  if (takenTeam) {
-    res.json({ message: "That team name is allready taken" });
-  } else if (takenEmail) {
+  if (takenEmail) {
     res.json({ message: "That email is allready in use" });
+    console.log("taken email");
   } else {
     user.password = await bcrypt.hash(req.body.password, 10);
 
@@ -73,7 +70,7 @@ router.post("/register", async (req, res) => {
       password: user.password,
       score: 69,
     });
-
+    console.log(dbUser);
     dbUser.save();
     res.json({ message: "success" });
   }
@@ -95,7 +92,7 @@ router.get("/logos", async (req, res) => {
   let logos = [];
   const options = {
     resource_type: "image",
-    max_results: 30,
+    max_results: 50,
   };
   const transformations = {
     width: 200,
@@ -114,8 +111,9 @@ router.get("/logos", async (req, res) => {
       for (let res in resources) {
         res = resources[res];
         const url = res.secure_url;
-        const id = res.asset_id;
-        logos.push({ id, url });
+        const id = res.public_id;
+        const assetID = res.asset_id;
+        logos.push({ id, url, assetID });
       }
       if (more) {
         listResources(more);

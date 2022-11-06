@@ -6,6 +6,7 @@ const initialState = {
   draftStage: 1,
   isDraftComplete: false,
   newTeam: {
+    logo: "",
     name: "",
     C: {},
     LW: {},
@@ -37,6 +38,14 @@ const draftSlice = createSlice({
     isDraftComplete(state, action) {
       state.isDraftComplete = action.payload;
     },
+    setLogo(state, action) {
+      // add url with scaling
+      // split the url at upload and insert transformation
+      const tranformation = "upload/c_scale,w_200/";
+      const splitUrl = action.payload.split("upload/");
+      const transformedUrl = splitUrl[0] + tranformation + splitUrl[1];
+      state.newTeam.logo = transformedUrl;
+    },
     setNewTeam(state, { payload }) {
       if (!payload.position) state.newTeam.name = payload;
       if (payload.position === "C") state.newTeam.C = payload;
@@ -64,6 +73,7 @@ export const {
   advanceDraft,
   retreatDraft,
   setNewTeam,
+  setLogo,
   saveNewTeam,
   setDraftStage,
   isDraftComplete,

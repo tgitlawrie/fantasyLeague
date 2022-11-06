@@ -25,6 +25,9 @@ const userSchema = mongoose.Schema({
       ref: "PlayerStats",
     },
   ],
+  logo: {
+    type: String,
+  },
   bench: [
     {
       type: mongoose.Schema.Types.ObjectId,
