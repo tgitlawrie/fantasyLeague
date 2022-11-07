@@ -22,6 +22,7 @@ const teamSlice = createSlice({
     setTeam(state, { payload }) {
       console.log(payload);
       state.team.name = payload.teamname;
+      state.team.logo = payload.logo;
       //set team state based on postion
       payload.team.forEach((player) => {
         if (player.position === "C") state.team.C = player;

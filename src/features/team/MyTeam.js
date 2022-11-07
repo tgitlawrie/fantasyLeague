@@ -5,29 +5,53 @@ import "./myTeam.css";
 
 const MyTeam = () => {
   const team = useSelector((state) => state.team.team);
-
+  console.log(team);
   return (
     <div className="board line">
-      <div className="" id="left-w">
-        {<PlayerCard player={team.LW} />}
+      <div className="icelogo">
+        <img src={team.logo} />
       </div>
-      <div className="" id="center">
-        {<PlayerCard player={team.C} />}
+
+      <div className="position" id="left-w">
+        LW
       </div>
-      <div className="" id="right-w">
-        {<PlayerCard player={team.RW} />}
+      <div className="name" id="left-w">
+        {team.LW.firstName + " " + team.LW.lastName}
       </div>
-      <div className="" id="left-d">
-        {<PlayerCard player={team.LD} />}
+      <div className="position" id="center">
+        C
       </div>
-      <div className="" id="right-d">
-        {<PlayerCard player={team.RD} />}
+      <div id="center" className="name">
+        {team.C.firstName + " " + team.C.lastName}
       </div>
-      <div className="" id="g">
-        {<PlayerCard player={team.G} />}
+      <div className="position" id="right-w">
+        RW
+      </div>
+      <div className="name" id="right-w">
+        {team.RW.firstName + " " + team.RW.lastName}
+      </div>
+      <div className="position" id="left-d">
+        LD
+      </div>
+      <div className="name" id="left-d">
+        {team.LD.firstName + " " + team.LD.lastName}
+      </div>
+      <div className="position" id="right-d">
+        RD
+      </div>
+      <div className="name" id="right-d">
+        {team.RD.firstName + " " + team.RD.lastName}
+      </div>
+      <div className="position" id="g">
+        G
+      </div>
+      <div className="name" id="g">
+        {team.G.firstName + " " + team.G.lastName}
       </div>
     </div>
   );
 };
-
+{
+  /* <PlayerCard player={team.C} */
+}
 export default MyTeam;

@@ -29,6 +29,7 @@ router.post("/login", (req, res) => {
             teamname: dbUser.teamname,
             score: dbUser.score,
             team: getTeam,
+            logo: dbUser.logo,
             bench: dbUser.bench,
           };
           jwt.sign(
