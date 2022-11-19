@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const goalieSchema = new mongoose.Schema({
   number: Number,

@@ -3,10 +3,11 @@
 const puppeteer = require("puppeteer");
 const mongoose = require("mongoose");
 
-// const PlayerStats = require("../models/players");
+const PlayerStats = require("../models/players");
+const GoalieStats = require("../models/goalieschema");
 
-const URI =
-  "mongodb+srv://tlawrie:C3DCG5hZHkTzKvuG@cluster0.xxxbt.mongodb.net/fantasyh?retryWrites=true&w=majority";
+const URI = process.env.ATLAS_URI;
+// "mongodb+srv://tlawrie:C3DCG5hZHkTzKvuG@cluster0.xxxbt.mongodb.net/fantasyh?retryWrites=true&w=majority";
 // const URI = "mongodb://localhost:27017/players";
 
 mongoose
@@ -18,41 +19,31 @@ mongoose
     console.log(`ERROR: ${err}`);
   });
 
-const playerSchema = new mongoose.Schema({
-  number: Number,
-  firstName: String,
-  lastName: String,
-  team: String,
-  position: String,
-  gamesPlayed: Number,
-  goals: Number,
-  assists: Number,
-  points: Number,
-  ppGoals: Number,
-  ppAssists: Number,
-  shGoals: Number,
-  shAssists: Number,
-  penaltyMins: Number,
-  avgPoints: Number,
-});
-
-// creates collection, arg1 is name of collection, will pluralise, 2nd arg schema
-const PlayerStats = mongoose.model("Playerstat", playerSchema);
+// reset DB
 // const reset = PlayerStats.deleteMany({});
 // reset();
 
 async function scrape(url) {
+  let isLastPage = false;
+
   const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto(url);
+  const page = await browser.newPage(); // create page
+  await page.goto(url); // goto url
 
   const data = await page.evaluate(() => {
     const tds = Array.from(document.querySelectorAll("tr"));
     return tds.map((tr) => tr.innerText);
   });
 
-  let players = [];
+  let players = []; // players array to hold player stats to be pushed to db
+  let goalies = [];
 
+  const nextButton =
+    "#division-player-sm-ice_hockey_skater > div:nth-child(4) > div.paginationNav > div > a:nth-child(5)";
+
+  // while not on the last page continue to scrape
+
+  // players loop
   for (let i = 1; i <= 30; i++) {
     // generate random position
     const pNum = Math.floor(Math.random() * 5);
@@ -83,20 +74,24 @@ async function scrape(url) {
     playerSchema.avgPoints = parseInt(player[12]);
 
     players.push(playerSchema);
+    // click next page
   }
+
   browser.close();
   // inserts array of objects into the db
-  async function playerInsert() {
-    await PlayerStats.insertMany(players)
-      .then((data) => {
-        console.log("success");
-        mongoose.connection.close();
-      })
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-      });
-  }
-  playerInsert();
+  // async function playerInsert() {
+  //   await PlayerStats.insertMany(players)
+  //     .then((data) => {
+  //       console.log("success");
+  //       mongoose.connection.close();
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Error: ${err}`);
+  //     });
+  // }
+  // playerInsert();
+
+  console.log(players.length);
 }
 
 scrape(
