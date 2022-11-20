@@ -6,6 +6,7 @@ const goalieSchema = new mongoose.Schema({
   lastName: String,
   team: String,
   gamesPlayed: Number,
+  minutes: Number,
   wins: Number,
   losses: Number,
   sol: Number,
