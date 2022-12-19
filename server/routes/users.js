@@ -1,10 +1,29 @@
 const express = require("express");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const mongoose = require("mongoose"); // import mongoose
+
 const User = require("../models/users");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
-// call to initiate logout localStorage.removeItem("token"))
+// create a new MongoStore instance using the mongoose connection
+const store = MongoStore.create({
+  mongoUrl: process.env.ATLAS_URI,
+  ttl: 604800, // 7 days
+  autoRemove: "interval",
+  autoRemoveInterval: 10, // 10 minutes
+});
+
+// use the session middleware with the MongoStore instance
+router.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
+);
 
 //user login
 router.post("/login", (req, res) => {
@@ -16,24 +35,15 @@ router.post("/login", (req, res) => {
     }
     bcrypt.compare(emailLogin.password, dbUser.password).then((isCorrect) => {
       if (isCorrect) {
-        const payload = {
+        req.session.user = {
           id: dbUser._id,
           teamname: dbUser.teamname,
           score: dbUser.score,
         };
-        jwt.sign(
-          payload,
-          process.env.JWT_SECRET,
-          { expiresIn: 86400 },
-          (err, token) => {
-            if (err) return res.json({ message: err });
-            return res.json({
-              message: "success",
-              token: "Bearer " + token,
-              payload,
-            });
-          }
-        );
+        console.log(req.session.user);
+        return res.json({
+          message: "success",
+        });
       } else {
         return res.json({
           message: "Invalid Email or Password",
@@ -42,6 +52,7 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
 // user registration
 router.post("/register", async (req, res) => {
   const user = req.body;
@@ -57,45 +68,16 @@ router.post("/register", async (req, res) => {
   } else {
     user.password = await bcrypt.hash(req.body.password, 10);
 
-    //TODO change score from 69 once calculations are done
     const dbUser = new User({
-      teamname: "hard coded teamname serverside",
+      teamname: "",
       email: user.email.toLowerCase().trim(),
       password: user.password,
-      score: 69,
+      score: 0,
     });
 
     dbUser.save();
     res.json({ message: "success" });
   }
 });
-
-// route for user verification
-router.get("/isUserAuth", verifyJWT, (req, res) => {
-  res.json({ isLoggedIn: true, teamname: req.user.teamname });
-});
-
-// JWT verify middleware
-function verifyJWT(req, res, next) {
-  //get token from req headers, split off "Bearer " string
-  const token = req.headers["x-access-token"]?.split(" ")[1];
-
-  //if token exists verify else set isLoggedIn to false;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err)
-        return res.json({
-          isLoggedIn: false,
-          message: "Failed to Authenticate",
-        });
-      req.user = {};
-      req.user.id = decoded.id;
-      req.user.teamname = decoded.teamname;
-      next();
-    });
-  } else {
-    res.json({ message: "Incorrect Token Given", isLoggedIn: false });
-  }
-}
 
 module.exports = router;
