@@ -21,7 +21,8 @@ const Signup = (props) => {
         "content-type": "application/json",
       },
       body: JSON.stringify(user),
-    }).then(() => {
+    }).then((data) => {
+      console.log(data);
       navigate("/");
     });
   };

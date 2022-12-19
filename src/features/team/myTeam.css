@@ -1,20 +1,9 @@
-/* .board {
-  background-image: url("../../assets/arena.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 90vh;
-} */
-
 .board {
   background-image: url("../../assets/arena.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   height: 90vh;
-
-  /* grid-template-columns: auto auto auto;
-  grid-template-rows: auto auto auto auto; */
 }
 /*TODO center line for positioning, remove me
 /* .line:after {
@@ -28,18 +17,45 @@
   transform: translate(-50%);
 } */
 
-#center {
-  height: 9rem;
-  width: 8rem;
+.position {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 4px;
+
+  background: rgb(34, 34, 34);
+  color: #e7dfdf;
+  text-align: center;
+}
+.icelogo {
   position: fixed;
   left: 50%;
   top: 40%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -65%);
+}
+
+.icelogo img {
+  opacity: 0.4;
+  transform: rotateX(60deg);
+}
+
+.name {
+  margin-top: 30px;
+  font-weight: bold;
+}
+
+#center {
+  /* height: 9rem;
+  width: 8rem; */
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, 0%);
 }
 
 #left-d {
-  height: 9rem;
-  width: 8rem;
+  /* height: 9rem;
+  width: 8rem; */
   position: fixed;
   left: 40%;
   top: 60%;
@@ -47,8 +63,8 @@
 }
 
 #right-d {
-  height: 9rem;
-  width: 8rem;
+  /* height: 9rem;
+  width: 8rem; */
   position: fixed;
   left: 60%;
   top: 60%;
@@ -56,8 +72,8 @@
 }
 
 #right-w {
-  height: 9rem;
-  width: 8rem;
+  /* height: 9rem;
+  width: 8rem; */
   position: fixed;
   left: 60%;
   top: 42%;
@@ -65,19 +81,19 @@
 }
 
 #left-w {
-  height: 9rem;
-  width: 8rem;
+  /* height: 9rem;
+  width: 8rem; */
   position: fixed;
   left: 40%;
   top: 42%;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
 }
 
 #g {
-  height: 9rem;
-  width: 8rem;
+  /* height: 9rem;
+  width: 8rem; */
   position: fixed;
   left: 50%;
-  bottom: 15%;
+  bottom: 25%;
   transform: translate(-50%, -50%);
 }

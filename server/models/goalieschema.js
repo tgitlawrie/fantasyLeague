@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const goalieSchema = new mongoose.Schema({
   number: Number,
@@ -6,6 +6,7 @@ const goalieSchema = new mongoose.Schema({
   lastName: String,
   team: String,
   gamesPlayed: Number,
+  minutes: Number,
   wins: Number,
   losses: Number,
   sol: Number,

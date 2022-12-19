@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -5,7 +9,8 @@ const mongoose = require("mongoose");
 const User = require("./models/users");
 const PlayerStat = require("./models/players");
 
-require("dotenv").config({ path: "./config.env" });
+// require("dotenv").config({ path: "./config.env" });
+
 const port = process.env.PORT || 3001;
 const dbUrl = process.env.ATLAS_URI;
 

@@ -7,7 +7,6 @@ const userSchema = mongoose.Schema({
   },
   teamname: {
     type: String,
-    required: true,
   },
   password: {
     type: String,
@@ -16,7 +15,20 @@ const userSchema = mongoose.Schema({
   score: {
     type: Number,
   },
-  Team: [
+  isTeamFull: {
+    type: Boolean,
+    default: false,
+  },
+  team: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PlayerStats",
+    },
+  ],
+  logo: {
+    type: String,
+  },
+  bench: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "PlayerStats",

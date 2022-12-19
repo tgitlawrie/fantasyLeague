@@ -2,28 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isSignedIn: false,
-  teamname: "",
   score: 0,
 };
-
+//TODO move teamname out of here into team.
 export const navbarSlice = createSlice({
   name: "navbar",
   initialState,
   reducers: {
     signIn: (state, payload) => {
       state.isSignedIn = true;
-      console.log(payload);
-      state.teamname = payload.payload.teamname;
-      state.score = payload.payload.score;
+      state.score = payload.score;
     },
     signOut: (state) => {
       state.isSignedIn = false;
-      state.teamname = initialState.teamname;
-      state.score = initialState.score;
       localStorage.removeItem("token");
-    },
-    userTeam: (state, payload) => {
-      state.userTeam = payload;
     },
   },
 });
