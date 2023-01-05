@@ -1,12 +1,33 @@
 const express = require("express");
-const User = require("../models/users");
-const Players = require("../models/players");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+
 const { cloudinary } = require("../cloudinary/index.js");
 
-// call to initiate logout localStorage.removeItem("token"))
+const User = require("../models/users");
+const Players = require("../models/players");
+const Goalies = require("../models/goalieschema");
+
+// create a new MongoStore instance using the mongoose connection
+const store = MongoStore.create({
+  mongoUrl: process.env.ATLAS_URI,
+  ttl: 604800, // 7 days
+  autoRemove: "interval",
+  autoRemoveInterval: 10, // 10 minutes
+});
+
+// use the session middleware with the MongoStore instance
+router.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxage: 5 * 24 * 60 * 60 * 1000, rolling: true },
+    store: store,
+  })
+);
 
 //user login
 router.post("/login", (req, res) => {
@@ -24,30 +45,24 @@ router.post("/login", (req, res) => {
           const getTeam = await Players.find({
             _id: { $in: dbUser.team },
           });
+          const getGoalie = await Goalies.find({
+            _id: { $in: dbUser.team },
+          });
+          const team = [...getTeam, ...getGoalie];
+          req.session.user = {
+            id: dbUser._id,
+          };
           const payload = {
             id: dbUser._id,
             teamname: dbUser.teamname,
             score: dbUser.score,
-            team: getTeam,
+            team: team,
             logo: dbUser.logo,
             bench: dbUser.bench,
           };
-          jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: 86400 },
-            (err, token) => {
-              if (err) return res.json({ message: err });
-              return res.json({
-                message: "success",
-                token: "Bearer " + token,
-                payload,
-              });
-            }
-          );
-        } else {
           return res.json({
-            message: "Invalid Email or Password",
+            message: "success",
+            payload,
           });
         }
       });
@@ -69,7 +84,7 @@ router.post("/register", async (req, res) => {
     const dbUser = new User({
       email: user.email.toLowerCase().trim(),
       password: user.password,
-      score: 69,
+      score: 0,
     });
     console.log(dbUser);
     dbUser.save();
@@ -77,15 +92,15 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/team", verifyJWT, async (req, res) => {
+router.post("/team", async (req, res) => {
   console.log(`from server:${req.body}`);
 });
 
-router.get("/draft", verifyJWT, (req, res) => {});
-router.get("/", verifyJWT, (req, res) => {});
+router.get("/draft", (req, res) => {});
+router.get("/", (req, res) => {});
 
 // route for user verification
-router.get("/isUserAuth", verifyJWT, (req, res) => {
+router.get("/isUserAuth", (req, res) => {
   res.json({ isLoggedIn: true, teamname: req.user.teamname });
 });
 
@@ -129,29 +144,5 @@ router.get("/logos", async (req, res) => {
   res.send(logos);
   // console.log(res.json(logos));
 });
-// JWT verify middleware
-function verifyJWT(req, res, next) {
-  //get token from req headers, split off "Bearer " string
-  // const token = req.headers["x-access-token"]?.split(" ")[1];
-  const token = req.headers["x-access-token"];
-  console.log(token);
-
-  //if token exists verify else set isLoggedIn to false;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err)
-        return res.json({
-          isLoggedIn: false,
-          message: "Failed to Authenticate",
-        });
-      req.user = {};
-      req.user.id = decoded.id;
-      req.user.teamname = decoded.teamname;
-      next();
-    });
-  } else {
-    res.json({ message: "Incorrect Token Given", isLoggedIn: false });
-  }
-}
 
 module.exports = router;

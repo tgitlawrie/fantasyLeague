@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { PlayerCard } from "../playerCard/PlayerCard";
 import { setDraftStage, saveNewTeam } from "./draftSlice";
 import { useNavigate } from "react-router-dom";
+import { GoalieCard } from "../playerCard/GoalieCard";
 
 const AssignTeam = () => {
   const dispatch = useDispatch();
@@ -110,7 +111,7 @@ const AssignTeam = () => {
       return (
         <>
           <div className="col" onClick={() => handleClick(8)}>
-            <PlayerCard player={G} />
+            <GoalieCard player={G} />
           </div>
         </>
       );

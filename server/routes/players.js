@@ -1,8 +1,8 @@
 const express = require("express");
 const PlayerStats = require("../models/players");
+const GoalieStats = require("../models/goalieschema")
 const User = require("../models/users");
 const router = express.Router();
-const { cloudinary } = require("../cloudinary/index.js");
 
 router.post("/all", async (req, res) => {
   try {
@@ -35,8 +35,7 @@ router.get("/team/draft", async (req, res) => {
     { $match: { position: "RD" } },
     { $sample: { size: 3 } },
   ]);
-  const G = await PlayerStats.aggregate([
-    { $match: { position: "G" } },
+  const G = await GoalieStats.aggregate([
     { $sample: { size: 3 } },
   ]);
   // console.log(res.json({ C, LW, RW, LD, G }));
@@ -46,6 +45,7 @@ router.get("/team/draft", async (req, res) => {
 // route to save team to the db
 router.post("/team/new", async (req, res) => {
   //  //need userID
+  console.log(req.body);
   const { C, LW, RW, LD, RD, G, user, name, logo } = req.body;
   const playerArray = [C._id, LW._id, RW._id, LD._id, RD._id, G._id];
 

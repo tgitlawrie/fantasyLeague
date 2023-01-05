@@ -8,6 +8,7 @@ import { advanceDraft, isDraftComplete, setNewTeam } from "../team/draftSlice";
 import { expandOn, lockExpand } from "../playerCard/playerCardSlice";
 import AssignTeam from "./AssignTeam";
 import Logos from "../logoPicker/LogoPicker";
+import { GoalieCard } from "../playerCard/GoalieCard";
 
 const Draft = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const Draft = () => {
     async function getOptions() {
       // gets the 3 options from server.
       const options = await axios.get("/players/team/draft");
+      console.log(options.data);
       setC(options.data.C);
       setLW(options.data.LW);
       setLD(options.data.LD);
@@ -187,13 +189,13 @@ const Draft = () => {
           <>
             <h2>Choose Goalie</h2>
             <div className="col" onClick={() => onSelect(G[0])}>
-              {<PlayerCard player={G[0]} />}
+              {<GoalieCard player={G[0]} />}
             </div>
-            <div className="col" onClick={() => onSelect(G[0])}>
-              {<PlayerCard player={G[0]} />}
+            <div className="col" onClick={() => onSelect(G[1])}>
+              {<GoalieCard player={G[1]} />}
             </div>
-            <div className="col" onClick={() => onSelect(G[0])}>
-              {<PlayerCard player={G[0]} />}
+            <div className="col" onClick={() => onSelect(G[2])}>
+              {<GoalieCard player={G[2]} />}
             </div>
           </>
         );

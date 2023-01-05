@@ -6,10 +6,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const User = require("./models/users");
-const PlayerStat = require("./models/players");
 
-// require("dotenv").config({ path: "./config.env" });
 
 const port = process.env.PORT || 3001;
 const dbUrl = process.env.ATLAS_URI;
@@ -28,7 +25,8 @@ app.use("/players", require("./routes/players"));
 // connect to db and start server on successful db connection
 mongoose
   .connect(dbUrl)
-  .then((res) => {
+  .then(() => {
+    console.log("connect to the database");
     app.listen(port, () => console.log(`Server running on port: ${port}`));
   })
   .catch((err) => console.log(err));
