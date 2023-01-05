@@ -27,7 +27,8 @@ const Login = () => {
         dispatch(signIn(data.payload));
         dispatch(loginSuccess(data.payload.id));
         localStorage.setItem("token", data.token);
-
+        
+        // if team length is less than 6 go to draft mode
         if (data.payload.team.length === 6) {
           dispatch(setTeam(data.payload));
           navigate("/");

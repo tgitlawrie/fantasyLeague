@@ -53,10 +53,10 @@ const draftSlice = createSlice({
       if (payload.position === "RW") state.newTeam.RW = payload;
       if (payload.position === "LD") state.newTeam.LD = payload;
       if (payload.position === "RD") state.newTeam.RD = payload;
-      if (payload.position === "G") state.newTeam.G = payload;
+      if(payload.savePct) state.newTeam.G = payload;
     },
     saveNewTeam(state, action) {
-      console.log(`savenewteam ${action.payload}`);
+      console.log(`saveNewTeam ${action.payload}`);
       // send to server for save
       axios({
         method: "post",
