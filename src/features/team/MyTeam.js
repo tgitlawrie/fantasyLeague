@@ -5,7 +5,6 @@ import "./myTeam.css";
 
 const MyTeam = () => {
   const team = useSelector((state) => state.team.team);
-  console.log(team);
   return (
     <div className="board line">
       <div className="icelogo">
@@ -51,7 +50,5 @@ const MyTeam = () => {
     </div>
   );
 };
-{
-  /* <PlayerCard player={team.C} */
-}
+
 export default MyTeam;

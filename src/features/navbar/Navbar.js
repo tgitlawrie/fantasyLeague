@@ -17,7 +17,7 @@ const Navbar = () => {
   }
 
   function renderAuth() {
-    if (localStorage.token && isSignedIn) {
+    if (isSignedIn) {
       return (
         <React.Fragment>
           <div className="navbar-brand col-sm-3">{teamname}</div>

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   isSignedIn: false,
@@ -15,7 +16,7 @@ export const navbarSlice = createSlice({
     },
     signOut: (state) => {
       state.isSignedIn = false;
-      localStorage.removeItem("token");
+      axios.get("/users/logout");
     },
   },
 });

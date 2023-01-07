@@ -20,7 +20,6 @@ const teamSlice = createSlice({
   initialState,
   reducers: {
     setTeam(state, { payload }) {
-      console.log(payload);
       state.team.name = payload.teamname;
       state.team.logo = payload.logo;
       //set team state based on postion

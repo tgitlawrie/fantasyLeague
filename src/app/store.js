@@ -5,6 +5,7 @@ import navbarReducer from "../features/navbar/navbarSlice";
 import teamReducer from "../features/team/teamSlice";
 import draftReducer from "../features/team/draftSlice";
 import playerReducer from "../features/playerCard/playerCardSlice";
+import axios from "axios";
 
 const storeReducers = combineReducers({
   login: loginReducer,
@@ -26,4 +27,10 @@ const rootReducer = (state, action) => {
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+});
+
+store.subscribe(() => {
+  console.log("store called");
+  const state = store.getState();
+  axios.post("/users/save-state", state);
 });

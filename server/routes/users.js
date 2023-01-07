@@ -1,6 +1,4 @@
 const express = require("express");
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
@@ -9,25 +7,6 @@ const { cloudinary } = require("../cloudinary/index.js");
 const User = require("../models/users");
 const Players = require("../models/players");
 const Goalies = require("../models/goalieschema");
-
-// create a new MongoStore instance using the mongoose connection
-const store = MongoStore.create({
-  mongoUrl: process.env.ATLAS_URI,
-  ttl: 604800, // 7 days
-  autoRemove: "interval",
-  autoRemoveInterval: 10, // 10 minutes
-});
-
-// use the session middleware with the MongoStore instance
-router.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxage: 5 * 24 * 60 * 60 * 1000, rolling: true },
-    store: store,
-  })
-);
 
 //user login
 router.post("/login", (req, res) => {
@@ -90,6 +69,36 @@ router.post("/register", async (req, res) => {
     dbUser.save();
     res.json({ message: "success" });
   }
+});
+
+//logout
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    res.cookie("connect.sid", "", { maxAge: -1 }); // set maxAge to a negative value
+    res.redirect("/login");
+  });
+});
+
+//store state in the session storage
+router.post("/save-state", (req, res) => {
+  console.log(req.body);
+  const state = req.body;
+  //save the state to the session store
+  req.session.state = state;
+  req.session.save((err) => {
+    if (err) {
+      console.error(err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
+//returns the state
+router.get("/get-state", (req, res) => {
+  const state = req.session.state;
+  res.send(state);
 });
 
 router.post("/team", async (req, res) => {

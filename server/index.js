@@ -5,13 +5,29 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-
-
+const session = require("express-session");
+const MongoStore = require("connect-mongodb-session")(session);
 
 const port = process.env.PORT || 3001;
 const dbUrl = process.env.ATLAS_URI;
 
 const app = express();
+
+// create a new MongoStore instance using the mongoose connection
+const store = new MongoStore({
+  uri: process.env.ATLAS_URI,
+  collection: "sessions",
+});
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 36000000 },
+    store: store,
+  })
+);
 
 //body parser middleware to receive form data
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
