@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongodb-session")(session);
+const initSettings = require("./utils/settings");
 
 const port = process.env.PORT || 3001;
 const dbUrl = process.env.ATLAS_URI;
@@ -42,7 +43,9 @@ app.use("/players", require("./routes/players"));
 mongoose
   .connect(dbUrl)
   .then(() => {
-    console.log("connect to the database");
+    console.log("connected to the database");
     app.listen(port, () => console.log(`Server running on port: ${port}`));
   })
   .catch((err) => console.log(err));
+
+initSettings(); // initialise settings

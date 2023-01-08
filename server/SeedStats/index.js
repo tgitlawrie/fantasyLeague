@@ -13,9 +13,9 @@ const connectDB = async () => {
     await mongoose.connect(dbUrl);
     console.log("Connection open");
   } catch (e) {
-    console.log("connection failed", e)
+    console.log("connection failed", e);
   }
-}
+};
 connectDB();
 
 const playerSchema = new mongoose.Schema({
@@ -95,7 +95,6 @@ let scrape = async (url) => {
   browser.close();
 
   await playerInsert();
-  
 };
 
 async function getSkaters(page) {
@@ -181,21 +180,20 @@ scrape(
 // inserts array of objects into the db
 async function playerInsert() {
   try {
-     // reset DB
+    // reset DB
     await PlayerStats.deleteMany({});
     await GoalieStats.deleteMany({});
     await PlayerStats.insertMany(players);
     console.log("players inserted");
-  
+
     await GoalieStats.insertMany(goalies);
     console.log("goalies inserted");
-    
+
     mongoose.connection.close();
     console.log("connection closed");
   } catch (error) {
-    console.log("insert failed");   
+    console.log("insert failed");
     mongoose.connection.close();
     console.log("connection closed");
   }
 }
-wwww
