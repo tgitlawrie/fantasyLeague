@@ -81,8 +81,6 @@ router.get("/logout", (req, res) => {
 //store state in the session storage
 router.post("/save-state", (req, res) => {
   const state = req.body;
-  console.log("saveState begin");
-  // console.log(req.session);
   //save the state to the session store
   req.session.state = state;
   req.session.save((err) => {
@@ -93,7 +91,6 @@ router.post("/save-state", (req, res) => {
       res.sendStatus(200);
     }
   });
-  console.log("saveState end");
 });
 
 //returns the state
@@ -145,14 +142,12 @@ router.get("/logos", async (req, res) => {
         listResources(more);
       } else {
         console.log("done");
-        // console.log(JSON.stringify(logos));
         return logos;
       }
     });
   }
   await listResources(null);
   res.send(logos);
-  // console.log(res.json(logos));
 });
 
 module.exports = router;

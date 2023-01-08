@@ -17,7 +17,6 @@ const App = () => {
     async function getState() {
       try {
         const response = await axios.get("/users/get-state");
-        console.log(response.data);
         const state = await response.data;
         dispatch({ type: "RESTORE_STATE", payload: state });
       } catch (error) {

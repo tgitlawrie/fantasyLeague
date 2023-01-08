@@ -22,9 +22,7 @@ const rootReducer = (state, action) => {
     state = undefined;
   }
   if (action.type === "RESTORE_STATE") {
-    console.log("???");
     state = action.payload;
-    console.log(state);
   }
   return storeReducers(state, action);
 };
