@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux/es/exports";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./features/navbar/Navbar";
 import MyTeam from "./features/team/MyTeam";
@@ -6,8 +7,27 @@ import Signup from "./features/forms/Signup";
 import Login from "./features/forms/Login";
 import PlayerStats from "./features/playerstats/PlayerStats";
 import Draft from "./features/team/Draft";
+import axios from "axios";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  //makes a request to server when app loads to get the users state
+  useEffect(() => {
+    async function getState() {
+      try {
+        const response = await axios.get("/users/get-state");
+        console.log(response.data);
+        const state = await response.data;
+        dispatch({ type: "RESTORE_STATE", payload: state });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getState();
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Navbar />

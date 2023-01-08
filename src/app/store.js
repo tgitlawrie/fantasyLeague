@@ -21,6 +21,11 @@ const rootReducer = (state, action) => {
   if (action.type === "navbar/signOut") {
     state = undefined;
   }
+  if (action.type === "RESTORE_STATE") {
+    console.log("???");
+    state = action.payload;
+    console.log(state);
+  }
   return storeReducers(state, action);
 };
 
@@ -29,8 +34,13 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
+// if state has changed, make request to update state in session store.
+let prevState = null;
 store.subscribe(() => {
   console.log("store called");
   const state = store.getState();
-  axios.post("/users/save-state", state);
+  if (prevState !== state) {
+    axios.post("/users/save-state", state);
+  }
+  prevState = state;
 });

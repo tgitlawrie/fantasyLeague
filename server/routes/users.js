@@ -75,14 +75,14 @@ router.post("/register", async (req, res) => {
 router.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     res.cookie("connect.sid", "", { maxAge: -1 }); // set maxAge to a negative value
-    res.redirect("/login");
   });
 });
 
 //store state in the session storage
 router.post("/save-state", (req, res) => {
-  console.log(req.body);
   const state = req.body;
+  console.log("saveState begin");
+  // console.log(req.session);
   //save the state to the session store
   req.session.state = state;
   req.session.save((err) => {
@@ -93,6 +93,7 @@ router.post("/save-state", (req, res) => {
       res.sendStatus(200);
     }
   });
+  console.log("saveState end");
 });
 
 //returns the state
