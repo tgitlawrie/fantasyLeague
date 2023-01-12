@@ -38,6 +38,7 @@ app.use(express.json());
 // link to user routes
 app.use("/users", require("./routes/users"));
 app.use("/players", require("./routes/players"));
+app.use("/admin", require("./routes/admin"));
 
 // connect to db and start server on successful db connection
 mongoose

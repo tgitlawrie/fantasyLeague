@@ -28,6 +28,11 @@ const Navbar = () => {
                 Logout
               </div>
             </li>
+            <li className="nav-item">
+              <Link to={"/controlpanel"} className="nav-link">
+                Control Panel
+              </Link>
+            </li>
           </ul>
         </React.Fragment>
       );

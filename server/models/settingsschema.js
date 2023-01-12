@@ -3,15 +3,23 @@ const mongoose = require("mongoose");
 //this schema is for settings, so far just for the scoring system
 // these are the settings for the scoring system
 const settingsSchema = new mongoose.Schema({
-  Points: {
-    gamesPlayed: { type: Number, default: 1 },
-    goals: { type: Number, default: 6 },
-    assists: { type: Number, default: 4 },
-    ppGoals: { type: Number, default: 4 },
-    ppAssists: { type: Number, default: 2 },
-    shGoals: { type: Number, default: 8 },
-    shAssists: { type: Number, default: 4 },
-    penaltyMins: { type: Number, default: -2 },
+  name: { type: String, default: "Points" },
+  value: {
+    type: Object,
+    default: {
+      gamesPlayed: 1,
+      goals: 6,
+      assists: 4,
+      ppGoals: 4,
+      ppAssists: 2,
+      shGoals: 8,
+      shAssists: 4,
+      penaltyMins: -2,
+    },
+  },
+  description: {
+    type: String,
+    default: "Settings for scoring system",
   },
 });
 

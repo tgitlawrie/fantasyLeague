@@ -8,6 +8,7 @@ import Login from "./features/forms/Login";
 import PlayerStats from "./features/playerstats/PlayerStats";
 import Draft from "./features/team/Draft";
 import axios from "axios";
+import ControlPanel from "./features/controlpanels/controlpanel";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const App = () => {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/playerstats" element={<PlayerStats />} />
         <Route exact path="/draft" element={<Draft />} />
+        <Route exact path="/controlpanel" element={<ControlPanel />} />
       </Routes>
     </BrowserRouter>
   );
