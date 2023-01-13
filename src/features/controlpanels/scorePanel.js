@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 
 export const ScorePanel = () => {
@@ -72,7 +71,7 @@ export const ScorePanel = () => {
               </li>
             ))}
           </ul>
-          <button className="btn btn-primary" onClick={handleSubmit}>
+          <button className="btn btn-primary mt-3" onClick={handleSubmit}>
             Update
           </button>
         </div>

@@ -34,6 +34,10 @@ const playerSchema = new mongoose.Schema({
   shAssists: Number,
   penaltyMins: Number,
   avgPoints: Number,
+  score: {
+    type: Number,
+    default: 0,
+  },
 });
 
 // creates collection, arg1 is name of collection, will pluralise, 2nd arg schema
