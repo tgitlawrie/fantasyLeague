@@ -15,6 +15,14 @@ const goalieSchema = new mongoose.Schema({
   goalsAgainstAvg: Number,
   savePct: Number,
   shutouts: Number,
+  position: {
+    type: String,
+    default: "G",
+  },
+  score: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const GoalieStats = mongoose.model("Goaliestat", goalieSchema);

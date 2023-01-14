@@ -8,7 +8,7 @@ import { expandOff, expandOn } from "./playerCardSlice";
 export const PlayerCard = ({ player }) => {
   const dispatch = useDispatch();
   const expanded = useSelector((state) => state.playercard.expanded);
-  // const [expandLocked, setExpandLocked] = useState(false);
+  const [expandLocked, setExpandLocked] = useState(false);
   const handleMouseOver = () => {
     dispatch(expandOn());
   };

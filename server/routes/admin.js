@@ -2,6 +2,7 @@
 const express = require("express");
 const Settings = require("../models/settingsschema");
 const PlayerStats = require("../models/players");
+const GoalieStats = require("../models/goalieschema");
 
 const router = express.Router();
 
@@ -32,6 +33,7 @@ router.get("/points/update", async (req, res) => {
   const limit = 10;
   let updatedDocuments = 0;
   const totalPlayers = await PlayerStats.countDocuments();
+  const totalGoalies = await GoalieStats.countDocuments();
 
   //get points values
   const { value: points } = await Settings.findOne({ name: "Points" });
@@ -55,7 +57,25 @@ router.get("/points/update", async (req, res) => {
       })
     );
   }
-  console.log("All documents have been updated.");
+  //TODO make this res.send for message return
+  console.log("Players updated");
+
+  const goalies = await GoalieStats.find();
+  // .skip(updatedDocuments - limit)
+  // .limit(limit);
+  //update the players score
+  Promise.all(
+    goalies.map(async (goalie) => {
+      const goalieStats = await getGoalieStats(goalie._id);
+      await GoalieStats.findOneAndUpdate(
+        { _id: goalie._id },
+        { $set: { score: calculateScore(goalieStats, points) } },
+        { upsert: true, new: true }
+      ).catch((err) => console.log(err));
+    })
+  );
+
+  console.log("Goalies updated");
 });
 
 const getPlayerStats = async (playerId) => {
@@ -64,46 +84,16 @@ const getPlayerStats = async (playerId) => {
   return stats;
 };
 
+const getGoalieStats = async (goalieId) => {
+  const stats = await GoalieStats.findOne({ _id: goalieId });
+  return stats;
+};
+
 const calculateScore = (playerStats, points) => {
   //calculate the score
-  /*player object:
-  {
-  _id: new ObjectId("6379d88e2ec6881efef4d4db"),
-  number: 95,
-  firstName: 'Ej',
-  lastName: 'Skeggs',
-  team: 'BEASTS',
-  position: 'LD',
-  gamesPlayed: 16,
-  goals: 1,
-  assists: 1,
-  points: 2,
-  ppGoals: 0,
-  ppAssists: 0,
-  shGoals: 0,
-  shAssists: 0,
-  penaltyMins: 8,
-  avgPoints: 0,
-  __v: 0,
-  score: 12
-}*/
-
-  /*Points object
-  {
-  gamesPlayed: 1,
-  goals: 4,
-  assists: 2,
-  ppGoals: 5,
-  ppAssists: 3,
-  shGoals: 5,
-  shAssists: 3,
-  penaltyMins: -2
-}
-
-*/
-
   let score = 0;
   if (playerStats.position !== "G") {
+    console.log("player");
     score += playerStats.gamesPlayed * points.gamesPlayed;
     score += playerStats.goals * points.goals;
     score += playerStats.assists * points.assists;
@@ -114,6 +104,15 @@ const calculateScore = (playerStats, points) => {
     score += playerStats.penaltyMins * points.penaltyMins;
   } else if (playerStats.position === "G") {
     //goalie stats go here
+    //   wins: 2,
+    // losses: 0,
+    // shutouts: 10,
+    // savePct: 10,
+    score += playerStats.gamesPlayed * points.gamesPlayed;
+    score += playerStats.wins * points.wins;
+    score += playerStats.losses * points.losses;
+    score += playerStats.shutouts * points.shutouts;
+    score += Math.round(playerStats.savePct * points.savePct); // round up
   }
   return score;
 };

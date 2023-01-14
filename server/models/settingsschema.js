@@ -15,6 +15,10 @@ const settingsSchema = new mongoose.Schema({
       shGoals: 8,
       shAssists: 4,
       penaltyMins: -2,
+      wins: 2,
+      losses: 0,
+      shutouts: 10,
+      savePct: 10,
     },
   },
   description: {
