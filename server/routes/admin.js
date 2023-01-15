@@ -3,6 +3,7 @@ const express = require("express");
 const Settings = require("../models/settingsschema");
 const PlayerStats = require("../models/players");
 const GoalieStats = require("../models/goalieschema");
+const User = require("../models/users");
 
 const router = express.Router();
 
@@ -33,7 +34,6 @@ router.get("/points/update", async (req, res) => {
   const limit = 10;
   let updatedDocuments = 0;
   const totalPlayers = await PlayerStats.countDocuments();
-  const totalGoalies = await GoalieStats.countDocuments();
 
   //get points values
   const { value: points } = await Settings.findOne({ name: "Points" });
@@ -116,5 +116,56 @@ const calculateScore = (playerStats, points) => {
   }
   return score;
 };
+
+router.post("/user/weekly", async (req, res) => {
+  try {
+    // Use the aggregate method to join the user and playerstats collection,
+    // group the documents by user, and sum the scores of all playerstats in the team field
+    const result = await User.aggregate([
+      {
+        $lookup: {
+          from: "playerstats",
+          localField: "team",
+          foreignField: "_id",
+          as: "team",
+        },
+      },
+      {
+        $unwind: "$team",
+      },
+      {
+        $group: {
+          _id: "$_id",
+          teamScore: { $sum: "$team.score" },
+          user: { $first: "$$ROOT" },
+        },
+      },
+      {
+        $project: {
+          _id: "$user._id",
+          email: "$user.email",
+          teamScore: 1,
+          score: { $add: ["$user.score", "$teamScore"] },
+        },
+      },
+    ]);
+
+    // Iterate over the array and update the user's score
+    result.forEach(async (user) => {
+      await User.updateOne(
+        { _id: user._id },
+        { $set: { weeklyscore: user.score } }
+      );
+    });
+    res.send({ message: "Users scores have been updated successfully." });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+router.post("/user/total", (req, res) => {
+  // adds the weekly score to the users total.
+  // should take the weeks score
+});
 
 module.exports = router;

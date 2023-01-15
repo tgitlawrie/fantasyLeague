@@ -2,6 +2,7 @@
 import React from "react";
 import { ScorePanel } from "./scorePanel";
 import { ScoreUpdate } from "./ScoreUpdate";
+import { UserUpdate } from "./UserUpdate";
 import "./controlpanel.css";
 
 //TODO make toasts or some sort of notification for sucess or failure
@@ -18,6 +19,9 @@ const ControlPanel = () => {
           </div>
           <div className="col">
             <ScoreUpdate />
+            <div className="col">
+              <UserUpdate />
+            </div>
           </div>
         </div>
       </div>
