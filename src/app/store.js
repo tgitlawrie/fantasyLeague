@@ -5,6 +5,7 @@ import navbarReducer from "../features/navbar/navbarSlice";
 import teamReducer from "../features/team/teamSlice";
 import draftReducer from "../features/team/draftSlice";
 import playerReducer from "../features/playerCard/playerCardSlice";
+import leaderReducer from "../features/leaderboard/leaderSlice";
 import axios from "axios";
 
 const storeReducers = combineReducers({
@@ -14,6 +15,7 @@ const storeReducers = combineReducers({
   team: teamReducer,
   draft: draftReducer,
   playercard: playerReducer,
+  leaderboard: leaderReducer,
 });
 
 // this set up allows for state reset on logout
@@ -35,7 +37,6 @@ export const store = configureStore({
 // if state has changed, make request to update state in session store.
 let prevState = null;
 store.subscribe(() => {
-  console.log("store called");
   const state = store.getState();
   if (prevState !== state) {
     axios.post("/users/save-state", state);

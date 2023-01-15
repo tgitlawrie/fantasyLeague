@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { PlayerCard } from "../playerCard/PlayerCard";
+import { LeaderBoard } from "../leaderboard/Leaderboard";
 import "./myTeam.css";
 
 const MyTeam = () => {
@@ -10,7 +10,9 @@ const MyTeam = () => {
       <div className="icelogo">
         <img src={team.logo} />
       </div>
-
+      <div>
+        <LeaderBoard />
+      </div>
       <div className="position" id="left-w">
         LW
       </div>
