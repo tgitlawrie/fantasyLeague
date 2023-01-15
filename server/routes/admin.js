@@ -166,6 +166,25 @@ router.post("/user/weekly", async (req, res) => {
 router.post("/user/total", (req, res) => {
   // adds the weekly score to the users total.
   // should take the weeks score
+  try {
+    const cursor = User.find({}).cursor();
+    cursor.on("data", async (user) => {
+      //take user.weekly and add it to user.score, move weekly to prevweek
+      const prevweek = user.weeklyscore;
+      const score = user.score + user.weeklyscore;
+
+      const update = {
+        $set: { score: score, weeklyscore: 0, prevweek: prevweek },
+      };
+      const filter = { _id: user._id };
+      await User.updateMany(filter, update);
+    });
+    cursor.on("close", function () {
+      res.send("user scores have been updated");
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 module.exports = router;
