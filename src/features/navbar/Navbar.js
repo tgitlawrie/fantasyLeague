@@ -78,6 +78,11 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to={"/league"} className="nav-link">
+                Leagues
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to={"/playerstats"} className="nav-link">
                 Player Stats
               </Link>

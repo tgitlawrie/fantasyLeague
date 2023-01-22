@@ -6,6 +6,7 @@ import MyTeam from "./features/team/MyTeam";
 import Signup from "./features/forms/Signup";
 import Login from "./features/forms/Login";
 import PlayerStats from "./features/playerstats/PlayerStats";
+import League from "./features/league/createleague";
 import Draft from "./features/team/Draft";
 import axios from "axios";
 import ControlPanel from "./features/controlpanels/controlpanel";
@@ -38,6 +39,7 @@ const App = () => {
         <Route exact path="/playerstats" element={<PlayerStats />} />
         <Route exact path="/draft" element={<Draft />} />
         <Route exact path="/controlpanel" element={<ControlPanel />} />
+        <Route exact path="/league" element={<League />} />
       </Routes>
     </BrowserRouter>
   );
