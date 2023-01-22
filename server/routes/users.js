@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const axios = require("axios");
 
 const { cloudinary } = require("../cloudinary/index.js");
 
@@ -11,7 +12,6 @@ const Goalies = require("../models/goalieschema");
 //user login
 router.post("/login", (req, res) => {
   const emailLogin = req.body;
-
   User.findOne({ email: emailLogin.email }).then((dbUser) => {
     if (!dbUser) {
       return res.json({ message: "Invalid Email or Password" });
@@ -59,15 +59,12 @@ router.post("/register", async (req, res) => {
   } else {
     user.password = await bcrypt.hash(req.body.password, 10);
 
-    //TODO change score from 69 once calculations are done
     const dbUser = new User({
       email: user.email.toLowerCase().trim(),
       password: user.password,
       score: 0,
     });
-    console.log(dbUser);
-    dbUser.save();
-    res.json({ message: "success" });
+    await dbUser.save();
   }
 });
 
@@ -148,6 +145,26 @@ router.get("/logos", async (req, res) => {
   }
   await listResources(null);
   res.send(logos);
+});
+
+router.get("/top/weekly", async (req, res) => {
+  //get top 5 weekly results
+  try {
+    const top5 = await User.find({}).sort({ weeklyscore: -1 }).limit(5);
+    res.send(top5);
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
+router.get("/top/season", async (req, res) => {
+  //get top 5 weekly results
+  try {
+    const top5 = await User.find({}).sort({ score: -1 }).limit(5);
+    res.send(top5);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 module.exports = router;

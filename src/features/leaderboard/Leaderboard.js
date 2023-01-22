@@ -2,6 +2,9 @@ import { React, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTab } from "./leaderSlice";
 import { Weekly } from "./weeklyboard";
+import { Season } from "./seasonboard";
+
+import "./leaderboard.css";
 
 export const LeaderBoard = () => {
   const dispatch = useDispatch();
@@ -9,15 +12,16 @@ export const LeaderBoard = () => {
 
   console.log(currentTab);
   const renderTab = () => {
-    return currentTab === "weekly" ? (
-      <Weekly />
-    ) : currentTab === "season" ? (
-      "Seaon Tab"
-    ) : currentTab === "league" ? (
-      "league Tab"
-    ) : (
-      "weeklyTab"
-    );
+    switch (currentTab) {
+      case "weekly":
+        return <Weekly />;
+      case "season":
+        return <Season />;
+      case "league":
+        return "TODO";
+      default:
+        return "error";
+    }
   };
 
   const handleChangeTab = (tab) => {
@@ -25,14 +29,16 @@ export const LeaderBoard = () => {
   };
 
   return (
-    <div className="container m-5 text-light">
+    <div className="container m-5 text-light leaderboard">
       <h3>Leaders</h3>
-      <div className="card bg-transparent border-light w-">
+      <div className="card bg-transparent border-light">
         <ul className="nav nav-tabs">
           <li className="nav-item">
             <button
               onClick={() => handleChangeTab("weekly")}
-              className="nav-link active"
+              className={`nav-link active ${
+                currentTab === "weekly" ? "bg-transparent text-light" : ""
+              }`}
             >
               Weekly
             </button>
@@ -40,7 +46,9 @@ export const LeaderBoard = () => {
           <li className="nav-item">
             <button
               onClick={() => handleChangeTab("season")}
-              className="nav-link active"
+              className={`nav-link active ${
+                currentTab === "season" ? "bg-transparent text-light" : ""
+              }`}
             >
               Season
             </button>
@@ -48,7 +56,9 @@ export const LeaderBoard = () => {
           <li className="nav-item">
             <button
               onClick={() => handleChangeTab("league")}
-              className="nav-link active"
+              className={`nav-link active ${
+                currentTab === "league" ? "bg-transparent text-light" : ""
+              }`}
             >
               League
             </button>

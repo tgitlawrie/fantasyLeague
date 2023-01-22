@@ -6,11 +6,11 @@ import "./myTeam.css";
 const MyTeam = () => {
   const team = useSelector((state) => state.team.team);
   return (
-    <div className="board line">
+    <div className="board line ">
       <div className="icelogo">
         <img src={team.logo} alt="team logo" />
       </div>
-      <div className="leader">
+      <div>
         <LeaderBoard />
       </div>
       <div className="position" id="left-w">

@@ -1,12 +1,12 @@
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 
-export const Weekly = () => {
+export const Season = () => {
   const [top5, setTop5] = useState({});
 
   useEffect(() => {
     (async () => {
-      await axios.get("/users/top/weekly").then((res) => {
+      await axios.get("/users/top/season").then((res) => {
         setTop5(res.data);
       });
     })();
@@ -21,8 +21,8 @@ export const Weekly = () => {
           className="list-group-item bg-transparent text-light"
         >
           <div className="row">
-            <div className="col-6">{user.teamname}</div>
-            <div className="col-6">{user.weeklyscore}</div>
+            <div className="col">{user.teamname}</div>
+            <div className="col">{user.score}</div>
           </div>
         </li>
       );
