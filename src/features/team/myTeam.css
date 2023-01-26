@@ -8,7 +8,7 @@
   place-items: center;
 }
 
-.line:after {
+/* .line:after {
   content: "";
   position: absolute;
   z-index: 20;
@@ -20,7 +20,7 @@
 }
 .redborder {
   border: 2px solid #ff0000;
-}
+} */
 
 .leader {
   position: absolute;

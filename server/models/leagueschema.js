@@ -7,7 +7,7 @@ const leagueSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    leaguename: {
+    leagueName: {
       type: String,
       unique: true,
     },
@@ -28,6 +28,11 @@ const leagueSchema = mongoose.Schema(
       type: String,
       enum: ["h2h", "redraft", "rotisserie", "points"],
       required: true,
+    },
+    maxSize: {
+      type: Number,
+      required: true,
+      default: 900,
     },
     status: {
       type: String,
