@@ -6,6 +6,7 @@ import teamReducer from "../features/team/teamSlice";
 import draftReducer from "../features/team/draftSlice";
 import playerReducer from "../features/playerCard/playerCardSlice";
 import leaderReducer from "../features/leaderboard/leaderSlice";
+import leaguereducer from "../features/league/leaguereducer";
 import axios from "axios";
 
 const storeReducers = combineReducers({
@@ -16,6 +17,7 @@ const storeReducers = combineReducers({
   draft: draftReducer,
   playercard: playerReducer,
   leaderboard: leaderReducer,
+  league: leaguereducer,
 });
 
 // this set up allows for state reset on logout

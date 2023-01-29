@@ -6,6 +6,7 @@ const Users = require("../models/users");
 const router = express.Router();
 
 router.post("/create", async (req, res) => {
+  //TODO check userid exists first
   const { userId, leagueName, canInvite, leagueSizeLimit, leagueMode } =
     req.body;
   const newLeague = new League({
@@ -23,6 +24,10 @@ router.post("/create", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+router.get("/getUserLeague", async (req, res) => {
+  // get all leagues associated with user
 });
 
 module.exports = router;
