@@ -1,0 +1,19 @@
+.modal-background {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.568);
+  transition: 2s;
+}
+
+.modal-content {
+  height: 50%;
+  width: 50%;
+  transition: 2s;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -29,10 +29,6 @@ const userSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    // isTeamFull: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     team: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -42,6 +38,12 @@ const userSchema = mongoose.Schema(
     logo: {
       type: String,
     },
+    leagues: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "League",
+      },
+    ],
     bench: [
       {
         type: mongoose.Schema.Types.ObjectId,

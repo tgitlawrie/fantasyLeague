@@ -14,7 +14,6 @@ export const Weekly = () => {
 
   const renderTop5 = () => {
     return top5.map((user) => {
-      console.log(user);
       return (
         <li
           key={user._id}
