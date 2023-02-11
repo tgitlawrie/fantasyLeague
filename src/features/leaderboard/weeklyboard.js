@@ -29,7 +29,7 @@ export const Weekly = () => {
   };
 
   return (
-    <ul class="list-group list-group-flush">
+    <ul className="list-group list-group-flush">
       {top5.length > 0 ? renderTop5() : "...Loading"}
     </ul>
   );

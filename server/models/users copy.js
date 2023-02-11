@@ -29,21 +29,19 @@ const userSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    team: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PlayerStats",
+      },
+    ],
     logo: {
       type: String,
     },
     leagues: [
       {
-        league: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "League",
-        },
-        team: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "PlayerStats",
-          },
-        ],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "League",
       },
     ],
     bench: [

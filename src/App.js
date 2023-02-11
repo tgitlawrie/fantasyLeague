@@ -14,7 +14,7 @@ import ControlPanel from "./features/controlpanels/controlpanel";
 const App = () => {
   const dispatch = useDispatch();
 
-  //makes a request to server when app loads to get the users state
+  //makes a request to server when app loads to get the users state for session persistance
   useEffect(() => {
     async function getState() {
       try {

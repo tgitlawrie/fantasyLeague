@@ -17,6 +17,7 @@ const initialState = {
     pointsLeague: null,
     redraft: null,
   },
+
   selectedLeague: null,
 };
 
@@ -29,8 +30,26 @@ export const leagueSlice = createSlice({
       state.selectedLeague = leagueTypes[action.payload];
     },
     setLeagues(state, action) {
-      //make request to get leagues and assign to signed leagues
-      console.log(action);
+      // map leagues and assign to correct league type
+      action.payload.map((leagues) => {
+        switch (leagues.leagueMode) {
+          case "pointsLeague":
+            state.signedLeagues.pointsLeague = leagues;
+            break;
+          case "head2head":
+            state.signedLeagues.head2head = leagues;
+            break;
+          case "redraft":
+            state.signedLeagues.redraft = leagues;
+            break;
+          case "rotisserie":
+            state.signedLeagues.rotisserie = leagues;
+            break;
+          default:
+            console.error("Invalid league information");
+            break;
+        }
+      });
     },
     setLoading(state, action) {
       state.isLoading = action.payload;

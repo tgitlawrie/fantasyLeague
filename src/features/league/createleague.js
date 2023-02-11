@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Field, Form } from "react-final-form";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import ShowLeagues from "./showleagues";
 
 const onSubmit = (formValues, user) => {
   const userId = { userId: user };
@@ -52,17 +51,23 @@ const CreateLeague = ({ onCloseModal }) => {
             <div className="mb-3">
               <label>League Mode: </label>{" "}
               <Field name="leagueMode" component="select">
-                <option value="h2h">Head 2 Head</option>
+                <option value="head2head">Head 2 Head</option>
                 <option value="redraft">Redraft</option>
                 <option value="rotisserie">Rotisserie</option>
-                <option value="points">Points based</option>
+                <option value="pointsLeague">Points based</option>
               </Field>
             </div>
             <div className="mb-3">
               <label>
-                <Field name="canInvite" component="input" type="checkbox" />{" "}
+                <Field name="canInvite" component="input" type="checkbox" />
                 Allow anyone to invite
               </label>
+              <div className="mb-3">
+                <label>
+                  <Field name="isPublic" component="input" type="checkbox" />
+                  open to Public
+                </label>
+              </div>
             </div>
             <div className="mb-3">
               <label>

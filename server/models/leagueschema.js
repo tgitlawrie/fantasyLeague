@@ -14,10 +14,16 @@ const leagueSchema = mongoose.Schema(
     lockedInvites: {
       type: Boolean,
     },
+    isPublic: {
+      type: Boolean,
+    },
     members: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        memberID: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        vs: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
       },
     ],
     gameType: {
@@ -26,13 +32,13 @@ const leagueSchema = mongoose.Schema(
     },
     leagueMode: {
       type: String,
-      enum: ["h2h", "redraft", "rotisserie", "points"],
+      enum: ["head2head", "redraft", "rotisserie", "points"],
       required: true,
     },
     maxSize: {
       type: Number,
       required: true,
-      default: 900,
+      default: 50,
     },
     status: {
       type: String,

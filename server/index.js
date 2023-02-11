@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongodb-session")(session);
 const initSettings = require("./utils/settings");
+const createPublicLeagues = require("./utils/publeagues");
 
 const port = process.env.PORT || 3001;
 const dbUrl = process.env.ATLAS_URI;
@@ -44,9 +45,9 @@ app.use("/league", require("./routes/league"));
 mongoose
   .connect(dbUrl)
   .then(() => {
-    console.log("connected to the database");
-    app.listen(port, () => console.log(`Server running on port: ${port}`));
+    app.listen(port, () => console.log(`Server \u2713`));
+    console.log("database \u2713");
+    initSettings(); // initialise settings
+    createPublicLeagues();
   })
   .catch((err) => console.log(err));
-
-initSettings(); // initialise settings
