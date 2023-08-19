@@ -3,9 +3,7 @@
 const puppeteer = require("puppeteer");
 const mongoose = require("mongoose");
 
-const dbUrl =
-  "mongodb+srv://tlawrie:C3DCG5hZHkTzKvuG@cluster0.xxxbt.mongodb.net/fantasyh?retryWrites=true&w=majority";
-// "mongodb+srv://tlawrie:C3DCG5hZHkTzKvuG@cluster0.xxxbt.mongodb.net/fantasyh?retryWrites=true&w=majority";
+//const dbUrl
 // const URI = "mongodb://localhost:27017/players";
 
 const connectDB = async () => {
