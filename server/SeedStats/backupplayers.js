@@ -3,7 +3,7 @@ const PlayerStats = require("../models/players");
 const GoalieStats = require("../models/goalieschema");
 
 mongoose.connect(
-  "mongodb+srv://tlawrie:C3DCG5hZHkTzKvuG@cluster0.xxxbt.mongodb.net/fantasyh?retryWrites=true&w=majority",
+  "",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
